@@ -21,20 +21,21 @@ func main() {
 	mongoHost := heroku.GetEnv("MONGOHQ_URL", "localhost:27017")
 	newRelicLicenseKey := heroku.GetEnv("NEW_RELIC_LICENSE_KEY", "")
 
+	log.Println("[GoRelic]", "Starting GoRelic agent with key: ", newRelicLicenseKey)
 	agent := gorelic.NewAgent()
 	agent.NewrelicLicense = newRelicLicenseKey
 	agent.Run()
 
-	log.Println("Connecting to mongo: ", mongoHost)
+	log.Println("[Mongo]", "Connecting to mongo: ", mongoHost)
 	session, mongoErr := mgo.Dial(mongoHost)
 
 	if mongoErr != nil {
-		log.Fatal("Mongo: ", mongoErr)
+		log.Fatal("[Mongo]", mongoErr)
 	}
 	defer session.Close()
 
 	bind := fmt.Sprintf("%s:%s", host, port)
-	log.Println("Starting server on", bind)
+	log.Println("[FreezingFrenzy]", "Starting server on", bind)
 
 	r := http.NewServeMux()
 	r.HandleFunc(`/`, func(w http.ResponseWriter, r *http.Request) {
@@ -48,4 +49,5 @@ func main() {
 	n.UseHandler(r)
 
 	n.Run(bind)
+	log.Println("[FreezingFrenzy]", "Ready to be start serving request")
 }
