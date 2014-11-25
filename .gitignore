@@ -22,6 +22,8 @@ _testmain.go
 *.exe
 *.test
 *.prof
+
 .idea
 *.iml
 freezing-nemesis
+gin-bin
