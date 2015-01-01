@@ -18,5 +18,5 @@ before_script:
   - mkdir -p shippable/codecoverage
 
 script:
-  - go test -v -coverprofile=coverage.txt -covermode count ./ | go-junit-report > shippable/testresults/junit.xml
+  - go test -v -coverprofile=coverage.txt -covermode count ./ | $GOPATH/bin/go-junit-report > shippable/testresults/junit.xml
   - $GOPATH/bin/gocover-cobertura < coverage.txt > shippable/codecoverage/coverage.xml
